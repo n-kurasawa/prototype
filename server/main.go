@@ -1,26 +1,20 @@
 package main
 
 import (
-	"encoding/json"
-	"log"
 	"net/http"
+
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; cahrset=utf-8")
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-
-	v := struct {
-		Msg string `json:"msg"`
-	}{
-		Msg: "Hello, World.",
-	}
-	if err := json.NewEncoder(w).Encode(v); err != nil {
-		log.Println("Error:", err)
-	}
-}
-
 func main() {
-	http.HandleFunc("/", handler)
+	db, err := sqlx.Open("mysql", "root:password@tcp(localhost:3306)/prottype")
+	if err != nil {
+		panic(err)
+	}
+	repo := NewRepository(db)
+	handler := NewHandler(repo)
+
+	http.HandleFunc("/", handler.userHello)
 	http.ListenAndServe(":8080", nil)
 }
