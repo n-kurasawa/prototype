@@ -10,5 +10,9 @@ func NewRepository(db *sqlx.DB) *RepositoryImpl {
 	return &RepositoryImpl{db: db}
 }
 func (r *RepositoryImpl) getUser() *User {
-	return &User{Name: "name"}
+	var user User
+	if err := r.db.Get(&user, "select * from users"); err != nil {
+		panic(err)
+	}
+	return &user
 }

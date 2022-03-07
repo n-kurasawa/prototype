@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	db, err := sqlx.Open("mysql", "root:password@tcp(localhost:3306)/prottype")
+	db, err := sqlx.Open("mysql", "root:@tcp(localhost:33060)/prototype?parseTime=true")
 	if err != nil {
 		panic(err)
 	}
@@ -16,5 +16,7 @@ func main() {
 	handler := NewHandler(repo)
 
 	http.HandleFunc("/", handler.userHello)
-	http.ListenAndServe(":8080", nil)
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		panic(err)
+	}
 }
