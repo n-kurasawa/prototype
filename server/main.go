@@ -1,10 +1,10 @@
 package main
 
 import (
-	"net/http"
-
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -15,8 +15,13 @@ func main() {
 	repo := NewRepository(db)
 	handler := NewHandler(repo)
 
-	http.HandleFunc("/", handler.userHello)
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		panic(err)
-	}
+	e := echo.New()
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+	}))
+
+	e.GET("/", handler.userHello)
+	e.Logger.Fatal(e.Start(":1323"))
 }

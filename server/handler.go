@@ -1,10 +1,10 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 )
 
 type Handler struct {
@@ -15,17 +15,12 @@ func NewHandler(repo Repository) *Handler {
 	return &Handler{repo: repo}
 }
 
-func (h *Handler) userHello(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; cahrset=utf-8")
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-
+func (h *Handler) userHello(c echo.Context) error {
 	user := h.repo.getUser()
 	v := struct {
 		Msg string `json:"msg"`
 	}{
 		Msg: fmt.Sprintf("Hello, %s", user.Name),
 	}
-	if err := json.NewEncoder(w).Encode(v); err != nil {
-		log.Println("Error:", err)
-	}
+	return c.JSON(http.StatusOK, v)
 }
