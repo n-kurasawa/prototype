@@ -23,5 +23,5 @@ func main() {
 	}))
 
 	e.GET("/", handler.userHello)
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":8080"))
 }
