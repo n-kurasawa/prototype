@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	db, err := sqlx.Open("mysql", "root:@tcp(localhost:33060)/prototype?parseTime=true")
+	db, err := sqlx.Open("mysql", "root:@tcp(db:3306)/prototype?parseTime=true")
 	if err != nil {
 		panic(err)
 	}

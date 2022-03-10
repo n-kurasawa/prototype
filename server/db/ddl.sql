@@ -1,3 +1,7 @@
+CREATE DATABASE prototype;
+
+USE prototype;
+
 CREATE TABLE IF NOT EXISTS `users` (
    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
    `name` varchar(128) NOT NULL,
