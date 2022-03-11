@@ -21,4 +21,4 @@ EXPOSE 8080
 
 USER nonroot:nonroot
 
-CMD ["/server"]
+CMD ["/server", "-config", "config.yaml", "-port", "8000"]
