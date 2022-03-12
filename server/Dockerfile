@@ -16,9 +16,10 @@ FROM gcr.io/distroless/base-debian10
 WORKDIR /
 
 COPY --from=build /server /server
+COPY --from=build /app/config.yaml /etc/config/config.yaml
 
 EXPOSE 8080
 
 USER nonroot:nonroot
 
-CMD ["/server", "-config", "config.yaml", "-port", "8000"]
+CMD ["/server", "-config", "/etc/config/config.yaml", "-port", "8080"]

@@ -1,6 +1,6 @@
 mysql:
   host: "db"
   port: 3306
-  db: "user"
+  db: "prototype"
   username: "root"
   password: ""
